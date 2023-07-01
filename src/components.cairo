@@ -19,7 +19,7 @@ enum PieceSide {
 #[derive(Component, Copy, Drop, Serde)]
 struct Piece {
     kind: PieceKind,
-    side: PieceSide
+    side: PieceSide,
 }
 
 
