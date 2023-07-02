@@ -25,8 +25,8 @@ mod init_board {
 mod tests {
     use core::traits::Into;
     use array::ArrayTrait;
+    use debug::PrintTrait;
     use dojo::world::IWorldDispatcherTrait;
-    use dojo::world::Context;
     use dojo::test_utils::spawn_test_world;
     use dojo_chess::components::{piece, position, Piece, Position, PieceKind, PieceSide};
     use super::init_board;
@@ -51,11 +51,13 @@ mod tests {
 
         let mut init_calldata = array::ArrayTrait::new();
 
-        world.execute('Init'.into(), init_calldata.span());
+        world.execute('init_board'.into(), init_calldata.span());
 
-        let white_pawn_1 = get !(world, 'white_pawn_1'.into(), (Piece, Position));
-
-        assert(white_pawn_1.kind == Piece::Pawn, 'moves is wrong');
+        let white_pawn_1_piece = world.entity('Piece', 'white_pawn_1'.into(), 0, 0);
+        //TODO: check that the piece is in the correct piece
+        let white_pawn_1_position = world.entity('Position', 'white_pawn_1'.into(), 0, 0);
+        assert(*white_pawn_1_position[0] == 0, 'position x is wrong');
+        assert(*white_pawn_1_position[1] == 1, 'position y is wrong');
     }
 }
 
