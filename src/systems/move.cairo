@@ -5,11 +5,11 @@ mod move {
     use dojo::world::Context;
     use dojo_chess::components::{Position, Piece, PieceKind, PieceSide};
 
-    fn execute(ctx: Context, new_position: Position) {
-        let (piece, current_position) = get !(ctx.world, ctx.origin.into(), (Piece, Position));
+    fn execute(ctx: Context, entity_name: felt252, new_position: Position) {
+        let (piece, current_position) = get !(ctx.world, entity_name.into(), (Piece, Position));
         assert(check_out_of_bounds(new_position), 'Out of bounds');
         assert(check_position_is_valid(piece, current_position, new_position), 'Invalid move');
-        set !(ctx.world, ctx.origin.into(), (Position { x: new_position.x, y: new_position.y }, ));
+        set !(ctx.world, entity_name.into(), (Position { x: new_position.x, y: new_position.y }, ));
         return ();
     }
 
@@ -63,20 +63,50 @@ mod move {
                 } else {
                     false
                 }
-
-                true
             },
             PieceKind::Bishop(()) => {
-                true
+                if (current_pos.x - new_pos.x) == (current_pos.y - new_pos.y) {
+                    true
+                } else {
+                    false
+                }
             },
             PieceKind::Rook(()) => {
-                true
+                if (current_pos.x == new_pos.x) || (current_pos.y == new_pos.y) {
+                    true
+                } else {
+                    false
+                }
             },
             PieceKind::Queen(()) => {
-                true
+                if (current_pos.x == new_pos.x)
+                    || (current_pos.y == new_pos.y)
+                    || ((current_pos.x - new_pos.x) == (current_pos.y - new_pos.y)) {
+                    true
+                } else {
+                    false
+                }
             },
             PieceKind::King(()) => {
-                true
+                if (current_pos.x == new_pos.x && current_pos.y + 1 == new_pos.y) {
+                    true
+                } else if (current_pos.x == new_pos.x && current_pos.y - 1 == new_pos.y) {
+                    true
+                } else if (current_pos.x + 1 == new_pos.x && current_pos.y == new_pos.y) {
+                    true
+                } else if (current_pos.x - 1 == new_pos.x && current_pos.y == new_pos.y) {
+                    true
+                } else if (current_pos.x + 1 == new_pos.x && current_pos.y + 1 == new_pos.y) {
+                    true
+                } else if (current_pos.x + 1 == new_pos.x && current_pos.y - 1 == new_pos.y) {
+                    true
+                } else if (current_pos.x - 1 == new_pos.x && current_pos.y + 1 == new_pos.y) {
+                    true
+                } else if (current_pos.x - 1 == new_pos.x && current_pos.y - 1 == new_pos.y) {
+                    true
+                } else {
+                    false
+                }
             },
         }
     }
