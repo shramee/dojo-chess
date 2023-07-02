@@ -1,5 +1,5 @@
 #[system]
-mod move {
+mod Move {
     use array::ArrayTrait;
     use traits::Into;
     use dojo::world::Context;

@@ -1,5 +1,5 @@
 #[system]
-mod init_board {
+mod Init_board {
     use array::ArrayTrait;
     use traits::Into;
     use dojo::world::Context;
